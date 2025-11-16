@@ -1,0 +1,53 @@
+Project rules for Cursor
+
+Scope
+- This workspace must use uv for Python environment management. Do not use conda.
+- Keep installation docs authoritative: INSTALL.md and ISSUES.md must reflect actual behavior.
+
+Environment management (uv)
+- Default Python: 3.12.x. Prefer uv-managed interpreter.
+  - Create venv: uv python install 3.12 && uv venv --python 3.12
+  - Activate: source .venv/bin/activate
+- Package install:
+  - Always prefer: uv pip install …
+  - For CUDA 11.8 PyTorch: uv pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu118
+  - For vLLM (nightly): uv pip install -U vllm --pre --extra-index-url https://wheels.vllm.ai/nightly
+  - Project deps: uv pip install -r requirements.txt
+  - FlashAttention (Transformers path): uv pip install flash-attn==2.7.3 --no-build-isolation
+- Acceptance of upgrades:
+  - vLLM nightly may upgrade torch to CUDA 12 runtime wheels. This is allowed for vLLM usage. If strict CUDA 11.8 torch is required, use a separate venv.
+
+When changing install/runtime behavior
+- If a PR changes any dependency, version pin, CUDA wheel index, or runtime assumptions, update INSTALL.md in the same PR.
+  - Include exact commands required (copy/paste runnable).
+  - If behavior differs between vLLM and Transformers paths, document both.
+- If a change introduces a new failure mode or resolves a known issue, update ISSUES.md:
+  - Add an entry with: Symptom, Cause, Fix/Workaround, and date.
+
+Smoke tests (required before claiming install works)
+- From the project root with venv activated, run a quick import test and record versions:
+  - torch, transformers, tokenizers, vllm (optional), flash_attn (optional)
+- If imports fail due to version drift, re-apply requirements, or document in ISSUES.md.
+
+Documentation style
+- Keep INSTALL.md concise and task-oriented:
+  - Prerequisites, Environment, Installs, Smoke test, Run commands.
+  - Use bash/code fences only for commands.
+- Keep ISSUES.md pragmatic:
+  - Bullet sections per issue: Symptom, Cause, Fix/Workaround.
+  - Prefer solutions that preserve uv usage.
+
+File and formatting rules
+- Preserve existing indentation style and width across edits.
+- Use absolute paths in examples when helpful; otherwise project-root-relative commands.
+- Avoid wrapping entire messages in a single code block. Use fenced code only where appropriate.
+
+AI assistant preferences
+- Prefer uv over conda and poetry.
+- Prefer upstream wheels over building from source where possible.
+- When in doubt about compatibility, isolate concerns in separate virtual environments rather than forcing conflicting pins.
+
+Operational safety
+- Do not commit large binary artifacts (wheels, models). Link to sources instead.
+- Keep commands non-interactive (e.g., no prompts requiring user input).*** End Patch !***  }```} programmed to=functions.apply_patch  عل WillWait code-writing complete.  -->
+

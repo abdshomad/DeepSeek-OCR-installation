@@ -1,0 +1,1 @@
+scripts/extract_pdf.sh /home/aiserver/LABS/OCR/AHADIR.pdf
